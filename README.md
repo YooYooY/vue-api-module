@@ -1,4 +1,4 @@
-# VueJS 接口请求模块的管理
+# Vue 接口模块管理
 
 整理自文章 [Vue tricks: smart api module for VueJS](https://itnext.io/vue-tricks-smart-api-module-for-vuejs-b0cae563e67b)
 
