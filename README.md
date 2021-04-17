@@ -6,6 +6,8 @@
 
 ## 开始
 
+[仓库地址](https://github.com/YooYooY/vue-api-module)
+
 在项目开发过程中，不同的模块可能对应不同的api文档，好的接口模块能够起到事倍功半的效果。
 
 下面👇 是项目中经过封装后抛出的请求模块：
@@ -18,7 +20,9 @@ export const $api = {
 };
 ```
 
-在组件中的使用：
+`users`、`posts`、`albums` 对应不同模块的接口服务。
+
+封装后的模块在组件中的使用：
 
 ```js
 // 查找
@@ -31,12 +35,11 @@ this.$api.users.add({ name:"new user" });
 this.$api.users.update(userId,{ name:"update" });
 ```
 
-`users`、`posts`、`albums` 分别对应不同模块的接口服务，其中CRUD(增查改删)可能在每个模块中都是基础功能的存在，或者统一的请求头信息、相同的路径前缀。
-
+通常在项目中，接口的CRUD(增查改删)操作在模块中可能是基础功能的存在，还有像统一的请求头信息、路径前缀、相同的数据格式等等。
 
 ## 基础类
 
-在编写接口模块之前，先创建基础类作为后面的子类继承：
+在编写接口模块之前，先创建基础类统一管理：
 
 ```js
 class BaseApiService {
@@ -59,7 +62,9 @@ class BaseApiService {
 }
 ```
 
-创建子类：
+### 创建子类
+
+#### ReadOnlyApiService
 
 只读接口（查找）服务：
 
@@ -87,6 +92,8 @@ class ReadOnlyApiService extends BaseApiService {
   }
 }
 ```
+
+#### ModelApiService
 
 基础模块服务：
 ```js
@@ -146,7 +153,7 @@ class ModelApiService extends ReadOnlyApiService {
 
 ## 扩展接口服务
 
-接下来就可以针对不同的模块扩展方法了，例如 `UsersApiService` 资源服务：
+接下来可以针对不同模块的请求逻辑做扩展方法，例如 `UsersApiService` 资源服务：
 
 ```js
 class UsersApiService extends ReadOnlyApiService {
@@ -161,6 +168,8 @@ class UsersApiService extends ReadOnlyApiService {
 ```
 
 ## 在组件和stroe中使用
+
+### 注入全局组件
 
 将接口服务注入到vue中，这里通过mixin的方式注入，编写`plugins/mixins.js`如下：
 
@@ -182,6 +191,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import "@/plugins/mixins";
 ```
+
+### store插件
 
 store也是经常使用接口服务的地方，编写`plugins/storePlugins.js`如下：
 
